@@ -18,7 +18,7 @@ router.post("/generateToken", (req, res) => {
 
 router.post('/reg', (req, res) => {
   const email = req.body.email;
-  const sql = "SELECT * FROM UserData WHERE email = ?";
+  const sql = "SELECT email,password,plan,feedback,validity FROM UserData WHERE email = ?";
   con.query(sql, [email], (err, result) => {
     if (err) {
       console.error('Error inserting data:', err);
