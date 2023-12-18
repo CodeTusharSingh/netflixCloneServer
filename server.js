@@ -838,7 +838,7 @@ app.get('/removeToken', (req, res) => {
   res.clearCookie('Finish_token');
   res.clearCookie('plan_token');
   // res.clearCookie('signed_token');
-  cookies.set('signed_token', {expires: Date.now()});
+  cookies.set('signed_token', '', { expires: new Date(0) });
 
   // Send a response indicating the token removal
   res.status(200).json({ msg: 'Cookies removed' });
