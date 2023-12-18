@@ -803,7 +803,10 @@ app.post('/content/search', (req, res) => {
 });
 
 
-app.listen(3001, function (err) {
-  if (err) console.log("Error in server setup")
-  console.log("Server listening on Port", 3001);
-})
+// app.listen(3001, function (err) {
+//   if (err) console.log("Error in server setup")
+//   console.log("Server listening on Port", 3001);
+// })
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => { console.log(`Server running on PORT ${PORT}`) })
