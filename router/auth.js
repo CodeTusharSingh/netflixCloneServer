@@ -11,8 +11,7 @@ router.post("/generateToken", (req, res) => {
   res.cookie("access_token", token, {
     httpOnly: false,
     secure: true,
-    domain: 'http://localhost:3000',
-    path: 'http://localhost:3000'
+    sameSite: 'None',
   });
   res.sendStatus(201);
 });
@@ -72,7 +71,8 @@ router.post('/Step4of1', (req, res) => {
         { user_id: email }, 'ram');
       res.cookie("Finish_token", token, {
         httpOnly: false,
-        secure: true
+        secure: true,
+        sameSite: 'None',
       });
       return res.sendStatus(200);
     });
