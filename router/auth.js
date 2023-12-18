@@ -82,16 +82,7 @@ router.post('/Step4of1', (req, res) => {
   }
 });
 
-router.get('/removeToken', (req, res) => {
-  // Clear the existing tokens by setting expired tokens in the cookies
-  res.clearCookie('access_token',{sameSite:'Strict'});
-  res.clearCookie('Finish_token',{sameSite:'Strict'});
-  res.clearCookie('plan_token',{sameSite:'Strict'});
-  res.clearCookie('signed_token',{sameSite:'Strict'})
 
-  // Send a response indicating the token removal
-  res.status(200).json({ msg: 'Cookies removed' });
-});
 
 
 
