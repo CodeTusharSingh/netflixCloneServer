@@ -7,6 +7,7 @@ var con = require('../config/db_config');
 router.post("/generateToken", (req, res) => {
   const email = req.body.email;
   const token = jwt.sign({ user_id: email }, 'ram')
+  console.log('Generated Token:', token);
   res.cookie("access_token", token, {
     httpOnly: false,
     secure: true
