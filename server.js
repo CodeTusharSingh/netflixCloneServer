@@ -385,10 +385,10 @@ function checkValidity(req, res, next) {
 
           // If the validity date has passed, clear the signed_token cookie
           if (validityDate < currentDate) {
-            res.clearCookie('signed_token');
-            res.clearCookie('access_token');
-            res.clearCookie('Finish_token');
-            res.clearCookie('plan_token');
+              res.clearCookie('access_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
             console.log('Validity has passed');
 
             // Update the plan column to null
@@ -403,7 +403,7 @@ function checkValidity(req, res, next) {
               }
             })
           }
-          return res.redirect('http://localhost:3000/');
+          return res.redirect('http://localhost:3000');
         }
         next(); // Proceed to the next middleware or route
       });
