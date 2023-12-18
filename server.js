@@ -402,8 +402,9 @@ function checkValidity(req, res, next) {
 
               }
             })
-              return res.redirect('http://localhost:3000');
+
           }
+                        return res.redirect('http://localhost:3000');
         }
         next(); // Proceed to the next middleware or route
       });
