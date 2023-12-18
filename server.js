@@ -25,6 +25,7 @@ app.use(cors({
 
 
 
+
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 //   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -66,6 +67,7 @@ app.get('/step2of1', (req, res) => {
     res.status(500).json({ error: "Internal Server Error" }); // 500 for server error
   }
 });
+
 
 
 
@@ -830,6 +832,16 @@ app.post('/content/search', (req, res) => {
   }
 });
 
+app.get('/removeToken', (req, res) => {
+  // Clear the existing tokens by setting expired tokens in the cookies
+  res.clearCookie('access_token');
+  res.clearCookie('Finish_token');
+  res.clearCookie('plan_token');
+  res.clearCookie('signed_token');
+
+  // Send a response indicating the token removal
+  res.status(200).json({ msg: 'Cookies removed' });
+});
 
 // app.listen(3001, function (err) {
 //   if (err) console.log("Error in server setup")
