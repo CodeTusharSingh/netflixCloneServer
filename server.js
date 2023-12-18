@@ -834,11 +834,10 @@ app.post('/content/search', (req, res) => {
 
 app.delete('/removeToken', (req, res) => {
   // Clear the existing tokens by setting expired tokens in the cookies
-  res.clearCookie('access_token');
-  res.clearCookie('Finish_token');
-  res.clearCookie('plan_token');
-  res.clearCookie('signed_token');
-  
+  res.clearCookie('access_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
 
   // Send a response indicating the token removal
   res.status(200).json({ msg: 'Cookies removed' });
