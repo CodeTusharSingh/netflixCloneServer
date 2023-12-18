@@ -92,7 +92,7 @@ app.post('/step2of1', async (req, res) => {
       const token = jwt.sign(
         { user_id: email }, 'ram');
       res.cookie("Finish_token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true
       });
       res.status(200).json({ msg: "data inserted successfully" });
@@ -183,13 +183,13 @@ app.post('/signin', (req, res) => {
         const token = jwt.sign(
           { user_id: email }, 'ram');
         res.cookie("Finish_token", token, {
-          httpOnly: false,
+          httpOnly: true,
           secure: true
         });
         const token1 = jwt.sign(
           { user_id: email }, 'ram');
         res.cookie("access_token", token1, {
-          httpOnly: false,
+          httpOnly: true,
           secure: true
         });
         return res.sendStatus(403);
@@ -197,7 +197,7 @@ app.post('/signin', (req, res) => {
       // const token = jwt.sign(
       //   { user_id: email }, 'ram');
       // res.cookie("signed_token", token, {
-      //   httpOnly: false
+      //   httpOnly: true
       // });
 
       // const token = jwt.sign(
@@ -206,7 +206,7 @@ app.post('/signin', (req, res) => {
       //   );
 
       //   res.cookie("signed_token", token, {
-      //     httpOnly: false,
+      //     httpOnly: true,
       //   });
       //   // Authentication successful
       //   return res.sendStatus(200);
@@ -222,7 +222,7 @@ app.post('/signin', (req, res) => {
       expirationDate.setDate(expirationDate.getDate() + 7);
 
       res.cookie("signed_token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
         expires: expirationDate,
       });
@@ -335,7 +335,7 @@ app.post('/paymentverification', async (req, res) => {
         expirationDate.setDate(expirationDate.getDate() + 7);
 
         res.cookie("signed_token", token, {
-          httpOnly: false,
+          httpOnly: true,
           secure: true,
           expires: expirationDate,
         });
@@ -433,7 +433,7 @@ app.post('/token', async (req, res) => {
   const plan = req.body.plan;
   const token = jwt.sign({ plan }, 'ram');
   res.cookie("plan_token", token, {
-    httpOnly: false,
+    httpOnly: true,
     secure: true
   });
   return res.status(201).json({ msg: "token success" });
