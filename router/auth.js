@@ -10,7 +10,9 @@ router.post("/generateToken", (req, res) => {
   console.log('Generated Token:', token);
   res.cookie("access_token", token, {
     httpOnly: false,
-    secure: true
+    secure: true,
+    domain: 'https://netflixcloneserver-production.up.railway.app',
+    path: 'http://localhost:3000'
   });
   res.sendStatus(201);
 });
