@@ -157,7 +157,7 @@ app.post('/signin', (req, res) => {
     }
 
     // Check if user exists
-    const getUserQuery = 'SELECT * FROM UserData WHERE email = ?';
+    const getUserQuery = 'SELECT email,password,plan,feedback,validity FROM UserData WHERE email = ?';
     con.query(getUserQuery, [email], async (err, result) => {
       if (err) {
         console.error(err);
