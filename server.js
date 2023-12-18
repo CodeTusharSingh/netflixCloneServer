@@ -33,8 +33,6 @@ app.use(cors({
 app.use(Mainrouter)
 
 
-
-
 app.get('/step1', (req, res) => {
   const token = req.cookies.access_token;
   try {
