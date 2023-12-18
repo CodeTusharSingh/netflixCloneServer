@@ -364,64 +364,64 @@ app.post('/paymentverification', async (req, res) => {
 })
 
 // Middleware to check validity before accessing protected routes
-function checkValidity(req, res, next) {
-  const token = req.cookies.signed_token;
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, 'ram');
-      const email = decoded.user_id;
+// function checkValidity(req, res, next) {
+//   const token = req.cookies.signed_token;
+//   if (token) {
+//     try {
+//       const decoded = jwt.verify(token, 'ram');
+//       const email = decoded.user_id;
 
-      // Query the database to get the user's validity date and plan
-      const sql = 'SELECT plan, validity FROM UserData WHERE email = ?';
-      con.query(sql, [email], (err, result) => {
-        if (err) {
-          console.error('Error checking validity:', err);
-          return res.status(500).json({ error: 'Internal Server Error' });
-        }
+//       // Query the database to get the user's validity date and plan
+//       const sql = 'SELECT plan, validity FROM UserData WHERE email = ?';
+//       con.query(sql, [email], (err, result) => {
+//         if (err) {
+//           console.error('Error checking validity:', err);
+//           return res.status(500).json({ error: 'Internal Server Error' });
+//         }
 
-        if (result.length > 0) {
-          const validityDate = new Date(result[0].validity);
-          const currentDate = new Date();
+//         if (result.length > 0) {
+//           const validityDate = new Date(result[0].validity);
+//           const currentDate = new Date();
 
-          // If the validity date has passed, clear the signed_token cookie
-          if (validityDate < currentDate) {
-              res.clearCookie('access_token', { secure: true, sameSite: 'None' });
-  res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
-  res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
-  res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
-            console.log('Validity has passed');
+//           // If the validity date has passed, clear the signed_token cookie
+//           if (validityDate < currentDate) {
+//               res.clearCookie('access_token', { secure: true, sameSite: 'None' });
+//   res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
+//   res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
+//   res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
+//             console.log('Validity has passed');
 
-            // Update the plan column to null
-            const updateSql = 'UPDATE UserData SET plan = NULL WHERE email = ?';
-            con.query(updateSql, [email], (updateErr, updateResult) => {
-              if (updateErr) {
-                console.error('Error updating plan to null:', updateErr);
-                return res.status(500).json({ error: 'Internal Server Error' });
-              } else {
-                console.log('Plan updated to null successfully');
+//             // Update the plan column to null
+//             const updateSql = 'UPDATE UserData SET plan = NULL WHERE email = ?';
+//             con.query(updateSql, [email], (updateErr, updateResult) => {
+//               if (updateErr) {
+//                 console.error('Error updating plan to null:', updateErr);
+//                 return res.status(500).json({ error: 'Internal Server Error' });
+//               } else {
+//                 console.log('Plan updated to null successfully');
 
-              }
-            })
-          }
-          return res.redirect('http://localhost:3000');
-        }
-        next(); // Proceed to the next middleware or route
-      });
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-  } else {
-    next(); // Proceed to the next middleware or route
-  }
-}
+//               }
+//             })
+//           }
+//           return res.redirect('http://localhost:3000');
+//         }
+//         next(); // Proceed to the next middleware or route
+//       });
+//     } catch (error) {
+//       console.error('Error decoding token:', error);
+//       return res.status(401).json({ error: 'Unauthorized' });
+//     }
+//   } else {
+//     next(); // Proceed to the next middleware or route
+//   }
+// }
 
 
 
-app.get('/protected-route', checkValidity, (req, res) => {
-  // Your protected route logic goes here
-  res.send('Protected Route');
-});
+// app.get('/protected-route', checkValidity, (req, res) => {
+//   // Your protected route logic goes here
+//   res.send('Protected Route');
+// });
 
 
 
@@ -452,19 +452,56 @@ app.post('/token', async (req, res) => {
 
 
 app.get('/home', (req, res) => {
-  const token = req.cookies.signed_token;
-  try {
-    const verified = jwt.verify(token, 'ram');
-    if (verified) {
-      const email = verified.user_id;
-      res.status(200).json({ email });
-    } else {
-      res.status(401).json({ error: "Unauthorized" }); // 401 for unauthorized
+    const token = req.cookies.signed_token;
+    try {
+        const verified = jwt.verify(token, 'ram');
+        const sql = 'SELECT plan, validity FROM UserData WHERE email = ?';
+        con.query(sql, [email], (err, result) => {
+
+            if (err) {
+                console.error('Error checking validity:', err);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+            if (result.length > 0) {
+                const validityDate = new Date(result[0].validity);
+                const currentDate = new Date();
+
+                // If the validity date has passed, clear the signed_token cookie
+                if (validityDate < currentDate) {
+                    res.clearCookie('access_token', { secure: true, sameSite: 'None' });
+                    res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
+                    res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
+                    res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
+                    console.log('Validity has passed');
+
+                    // Update the plan column to null
+                    const updateSql = 'UPDATE UserData SET plan = NULL WHERE email = ?';
+                    con.query(updateSql, [email], (updateErr, updateResult) => {
+                        if (updateErr) {
+                            console.error('Error updating plan to null:', updateErr);
+                            return res.status(500).json({ error: 'Internal Server Error' });
+                        } else {
+                            console.log('Plan updated to null successfully');
+
+                        }
+                    })
+                    return res.redirect('http://localhost:3000');
+                }
+            }
+
+        })
+
+
+        if (verified) {
+            const email = verified.user_id;
+            res.status(200).json({ email });
+        } else {
+            res.status(401).json({ error: "Unauthorized" }); // 401 for unauthorized
+        }
+    } catch (err) {
+        console.error('An error occurreds:', err);
+        res.status(500).json({ error: "Internal Server Error" }); // 500 for server error
     }
-  } catch (err) {
-    console.error('An error occurreds:', err);
-    res.status(500).json({ error: "Internal Server Error" }); // 500 for server error
-  }
 });
 
 
