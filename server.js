@@ -832,13 +832,13 @@ app.post('/content/search', (req, res) => {
   }
 });
 
-app.get('/removeToken', (req, res) => {
+app.delete('/removeToken', (req, res) => {
   // Clear the existing tokens by setting expired tokens in the cookies
   res.clearCookie('access_token');
   res.clearCookie('Finish_token');
   res.clearCookie('plan_token');
-  // res.clearCookie('signed_token');
-  cookies.set('signed_token', '', { expires: new Date(0) });
+  res.clearCookie('signed_token');
+  
 
   // Send a response indicating the token removal
   res.status(200).json({ msg: 'Cookies removed' });
