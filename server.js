@@ -92,7 +92,8 @@ app.post('/step2of1', async (req, res) => {
         { user_id: email }, 'ram');
       res.cookie("Finish_token", token, {
         httpOnly: false,
-        secure: true
+        secure: true,
+        sameSite: 'None'
       });
       res.status(200).json({ msg: "data inserted successfully" });
       console.log('Data inserted successfully');
@@ -183,13 +184,15 @@ app.post('/signin', (req, res) => {
           { user_id: email }, 'ram');
         res.cookie("Finish_token", token, {
           httpOnly: false,
-          secure: true
+          secure: true,
+          sameSite: 'None'
         });
         const token1 = jwt.sign(
           { user_id: email }, 'ram');
         res.cookie("access_token", token1, {
           httpOnly: false,
-          secure: true
+          secure: true,
+          sameSite: 'None'
         });
         return res.sendStatus(403);
       }
@@ -224,6 +227,7 @@ app.post('/signin', (req, res) => {
         httpOnly: false,
         secure: true,
         expires: expirationDate,
+        sameSite: 'None'
       });
       return res.sendStatus(200);
     });
@@ -337,6 +341,7 @@ app.post('/paymentverification', async (req, res) => {
           httpOnly: false,
           secure: true,
           expires: expirationDate,
+          sameSite: 'None'
         });
         return res.redirect('http://localhost:3000/home');
       });
@@ -433,7 +438,8 @@ app.post('/token', async (req, res) => {
   const token = jwt.sign({ plan }, 'ram');
   res.cookie("plan_token", token, {
     httpOnly: false,
-    secure: true
+    secure: true,
+    sameSite: 'None'
   });
   return res.status(201).json({ msg: "token success" });
 })
