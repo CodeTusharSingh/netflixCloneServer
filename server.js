@@ -24,7 +24,7 @@ app.use(cors({
 }));
 
 
-app.options('/protected-route', cors());
+
 
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -454,8 +454,10 @@ app.post('/token', async (req, res) => {
 app.get('/home', (req, res) => {
     const token = req.cookies.signed_token;
     try {
-        const verified = jwt.verify(token, 'ram');
-        const sql = 'SELECT plan, validity FROM UserData WHERE email = ?';
+  const verified = jwt.verify(token, 'ram');
+      if (verified) {
+            const email = verified.user_id;
+        const sql = `SELECT plan, validity FROM UserData WHERE email = ${verified.user_id}`;
         con.query(sql, [email], (err, result) => {
 
             if (err) {
@@ -490,14 +492,11 @@ app.get('/home', (req, res) => {
             }
 
         })
-
-
-        if (verified) {
-            const email = verified.user_id;
             res.status(200).json({ email });
         } else {
             res.status(401).json({ error: "Unauthorized" }); // 401 for unauthorized
-        }
+      }
+        
     } catch (err) {
         console.error('An error occurreds:', err);
         res.status(500).json({ error: "Internal Server Error" }); // 500 for server error
