@@ -11,7 +11,7 @@ router.post("/generateToken", (req, res) => {
   res.cookie("access_token", token, {
     httpOnly: false,
     secure: true,
-    domain: 'https://netflixcloneserver-production.up.railway.app',
+    domain: 'http://localhost:3000',
     path: 'http://localhost:3000'
   });
   res.sendStatus(201);
