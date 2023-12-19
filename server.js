@@ -366,6 +366,7 @@ app.post('/paymentverification', async (req, res) => {
 // Middleware to check validity before accessing protected routes
 function checkValidity(req, res, next) {
   const token = req.cookies.signed_token;
+  console.log('vtoken: ', token);
   if (token) {
     try {
       const decoded = jwt.verify(token, 'ram');
@@ -373,6 +374,7 @@ function checkValidity(req, res, next) {
 
       // Query the database to get the user's validity date and plan
       const sql = 'SELECT plan, validity FROM UserData WHERE email = ?';
+      console.log('vemail: ', email);
       con.query(sql, [email], (err, result) => {
         if (err) {
           console.error('Error checking validity:', err);
