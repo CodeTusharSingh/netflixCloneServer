@@ -169,7 +169,7 @@ app.post('/signin', (req, res) => {
     // Check if user exists
     const getUserQuery = 'SELECT email,password,plan,feedback,validity FROM UserData WHERE email = ?';
     con.query(getUserQuery, [email], async (err, result) => {
-      con.release();
+      
       if (err) {
         console.error(err);
         return res.sendStatus(500); // Internal Server Error
@@ -240,6 +240,7 @@ app.post('/signin', (req, res) => {
         sameSite: 'None'
       });
       return res.sendStatus(200);
+      con.release();
     });
 
     // Authentication successful
