@@ -384,6 +384,8 @@ function checkValidity(req, res, next) {
           const currentDate = new Date();
 
           // If the validity date has passed, clear the signed_token cookie
+          console.log('Validity: ', validityDate);
+          console.log('Current: ', currentDate);
           if (validityDate < currentDate) {
               res.clearCookie('access_token', { secure: true, sameSite: 'None' });
               res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
@@ -404,7 +406,7 @@ function checkValidity(req, res, next) {
             })
 
           }
-                        return res.redirect('http://localhost:3000');
+          return res.redirect('http://localhost:3000');
         }
         next(); // Proceed to the next middleware or route
       });
