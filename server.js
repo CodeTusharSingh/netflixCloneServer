@@ -349,7 +349,7 @@ app.post('/paymentverification', async (req, res) => {
           expires: expirationDate,
           sameSite: 'None'
         });
-        return res.redirect('https://netflixclone-0y0x.onrender.com/home');
+        return res.redirect('https://netflixclone-0y0x.onrender.com');
       });
 
 
