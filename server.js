@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: 'https://netflixclone-0y0x.onrender.com/',
+  origin: 'https://netflixclone-0y0x.onrender.com',
   methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
   credentials: true,
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
