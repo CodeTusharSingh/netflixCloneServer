@@ -49,6 +49,7 @@ app.get('/step1', (req, res) => {
   }
 });
 
+
 app.get('/step2of1', (req, res) => {
   const token = req.cookies.access_token;
   console.log('Token: ', token);
