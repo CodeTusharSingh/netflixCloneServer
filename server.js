@@ -105,7 +105,7 @@ app.post('/step2of1', async (req, res) => {
       });
       res.status(200).json({ msg: "data inserted successfully" });
       console.log('Data inserted successfully');
-      con.release();
+       
     });
 
   } catch (error) {
@@ -147,7 +147,7 @@ app.post('/step2of2', (req, res) => {
         console.log("Plan updated successfully");
         res.sendStatus(200);
       }
-      con.release();
+       
     })
   }
   catch (err) {
@@ -241,7 +241,7 @@ app.post('/signin', (req, res) => {
         sameSite: 'None'
       });
       return res.sendStatus(200);
-      con.release();
+       
     });
 
     // Authentication successful
@@ -357,7 +357,7 @@ app.post('/paymentverification', async (req, res) => {
           sameSite: 'None'
         });
         return res.redirect('https://netflixclone-0y0x.onrender.com');
-        con.release();
+         
       });
 
 
@@ -415,14 +415,14 @@ function checkValidity(req, res, next) {
                 console.log('Plan updated to null successfully');
 
               }
-              con.release();
+               
             })
 
           }
           return res.redirect('https://netflixclone-0y0x.onrender.com');
         }
         next(); // Proceed to the next middleware or route
-        con.release();
+         
       });
     } catch (error) {
       console.error('Error decoding token:', error);
@@ -503,7 +503,7 @@ app.get('/homeaccount/:email', (req, res) => {
     }
 
     res.json(results);
-    con.release();
+     
   });
 });
 
@@ -526,7 +526,7 @@ app.get('/userList/:email', (req, res) => {
     }
 
     res.json(results);
-    con.release();
+     
   });
 });
 
@@ -548,7 +548,7 @@ app.get('/userHistory/:email', (req, res) => {
     }
 
     res.json(results);
-    con.release();
+     
   });
 });
 
@@ -573,7 +573,7 @@ app.get('/user/feedback/check/:email', (req, res) => {
     } else {
       res.status(404).json({ message: 'Feedback not found' });
     }
-    con.release();
+     
   });
 });
 
@@ -624,11 +624,11 @@ app.post('/userList/add', (req, res) => {
           return res.status(500).json({ error: 'Internal Server Error' });
         }
         return res.status(200).json({ message: 'Alright' });
-        con.release();
+         
       });
-con.release();
+ 
     });
-    con.release();
+     
   });
 });
 
@@ -677,11 +677,11 @@ app.post('/userList/remove', (req, res) => {
         }
 
         return res.status(200).json({ message: 'Removed successfully' });
-        con.release();
+         
       });
-      con.release();
+       
     });
-    con.release();
+     
   });
 });
 
@@ -729,11 +729,11 @@ app.post('/userList/check', (req, res) => {
           return res.status(409).json({ error: 'Entry already exists in UserList.' });
         }
         return res.status(200).json({ message: 'checked successfully' });
-        con.release();
+         
       });
-      con.release();
+       
     });
-    con.release();
+     
   });
 });
 
@@ -784,11 +784,11 @@ app.post('/userHistory/add', (req, res) => {
           return res.status(500).json({ error: 'Internal Server Error' });
         }
         return res.status(200).json({ message: 'Alright' });
-        con.release();
+         
       });
-con.release();
+ 
     });
-    con.release();
+     
   });
 });
 
@@ -826,9 +826,9 @@ app.post('/user/feedback', (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
       }
       return res.status(200).json({ message: 'Alright' });
-      con.release();
+       
     });
-con.release();
+ 
   });
 });
 
@@ -853,7 +853,7 @@ app.put('/user/feedback/delete', (req, res) => {
     } else {
       res.status(404).json({ message: 'Feedback not found for the given email' });
     }
-    con.release();
+     
   });
 });
 
@@ -879,7 +879,7 @@ app.post('/content/search', (req, res) => {
 
       // Send the search results
       res.status(200).json({ results });
-      con.release();
+       
     });
   } catch (error) {
     console.error('An unexpected error occurred:', error);
