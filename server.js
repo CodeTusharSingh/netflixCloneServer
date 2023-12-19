@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://netflixclone-0y0x.onrender.com',
   methods: 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
   credentials: true,
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
@@ -349,7 +349,7 @@ app.post('/paymentverification', async (req, res) => {
           expires: expirationDate,
           sameSite: 'None'
         });
-        return res.redirect('http://localhost:3000/home');
+        return res.redirect('https://netflixclone-0y0x.onrender.com/home');
       });
 
 
@@ -408,7 +408,7 @@ function checkValidity(req, res, next) {
             })
 
           }
-          return res.redirect('http://localhost:3000');
+          return res.redirect('https://netflixclone-0y0x.onrender.com');
         }
         next(); // Proceed to the next middleware or route
       });
