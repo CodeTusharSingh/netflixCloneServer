@@ -7,6 +7,7 @@ var mysql = require('mysql');
 //   database : "sql12660134"
 // });
 var con = mysql.createConnection({
+  connectionLimit: 10,
   host: "sql12.freesqldatabase.com",
   user: "sql12671206",
   password: "mV95dHidzf",
