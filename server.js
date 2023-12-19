@@ -90,6 +90,7 @@ app.post('/step2of1', async (req, res) => {
     const values = [email, passwordHash];
 
     con.query(sql, values, (err, result) => {
+      con.release();
       if (err) {
         console.error('Error inserting data:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -138,6 +139,7 @@ app.post('/step2of2', (req, res) => {
     console.log(plan);
 
     con.query(sql, (err, result) => {
+      con.release();
       if (err) {
         console.error("Error updating plan:", err);
         res.status(500).json({ error: "Error updating plan" });
@@ -167,6 +169,7 @@ app.post('/signin', (req, res) => {
     // Check if user exists
     const getUserQuery = 'SELECT email,password,plan,feedback,validity FROM UserData WHERE email = ?';
     con.query(getUserQuery, [email], async (err, result) => {
+      con.release();
       if (err) {
         console.error(err);
         return res.sendStatus(500); // Internal Server Error
@@ -332,6 +335,7 @@ app.post('/paymentverification', async (req, res) => {
       const values = [plan, calculateValidityDate(plan), email];
 
       con.query(sql, values, (err, result) => {
+        con.release();
         if (err) {
           console.error('Error updating plan:', err);
           return res.status(500).json({ error: 'Internal Server Error' });
@@ -377,6 +381,7 @@ function checkValidity(req, res, next) {
       const sql = 'SELECT plan, validity FROM UserData WHERE email = ?';
       console.log('vemail: ', email);
       con.query(sql, [email], (err, result) => {
+        con.release();
         if (err) {
           console.error('Error checking validity:', err);
           return res.status(500).json({ error: 'Internal Server Error' });
@@ -399,6 +404,7 @@ function checkValidity(req, res, next) {
             // Update the plan column to null
             const updateSql = 'UPDATE UserData SET plan = NULL WHERE email = ?';
             con.query(updateSql, [email], (updateErr, updateResult) => {
+              con.release();
               if (updateErr) {
                 console.error('Error updating plan to null:', updateErr);
                 return res.status(500).json({ error: 'Internal Server Error' });
@@ -484,6 +490,7 @@ app.get('/homeaccount/:email', (req, res) => {
   `;
 
   con.query(query, [email], (err, results) => {
+    con.release();
     if (err) {
       console.error('Error retrieving user list:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -505,6 +512,7 @@ app.get('/userList/:email', (req, res) => {
   `;
 
   con.query(query, [email], (err, results) => {
+    con.release();
     if (err) {
       console.error('Error retrieving user list:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -525,6 +533,7 @@ app.get('/userHistory/:email', (req, res) => {
   `;
 
   con.query(query, [email], (err, results) => {
+    con.release();
     if (err) {
       console.error('Error retrieving user history:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -542,6 +551,7 @@ app.get('/user/feedback/check/:email', (req, res) => {
   const query = "SELECT feedback FROM UserData WHERE email = ?";
 
   con.query(query, [email], (err, result) => {
+    con.release();
     if (err) {
       // Handle the error
       console.error(err);
@@ -574,6 +584,7 @@ app.post('/userList/add', (req, res) => {
   const checkContentQuery = 'SELECT * FROM Content WHERE contentLinkName = ?';
 
   con.query(checkUserQuery, [email], (errUser, userResults) => {
+    con.release();
     if (errUser) {
       console.error('Error checking user:', errUser);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -584,6 +595,7 @@ app.post('/userList/add', (req, res) => {
     }
 
     con.query(checkContentQuery, [contentLinkName], (errContent, contentResults) => {
+      con.release();
       if (errContent) {
         console.error('Error checking content:', errContent);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -597,6 +609,7 @@ app.post('/userList/add', (req, res) => {
       const addToUserListQuery = 'INSERT INTO UserList (email, contentLinkName) VALUES (?, ?)';
 
       con.query(addToUserListQuery, [email, contentLinkName], (errAdd) => {
+        con.release();
         if (errAdd) {
           console.error('Error adding content to user list:', errAdd);
           return res.status(500).json({ error: 'Internal Server Error' });
@@ -621,6 +634,7 @@ app.post('/userList/remove', (req, res) => {
   const checkContentQuery = 'SELECT * FROM Content WHERE contentLinkName = ?';
 
   con.query(checkUserQuery, [email], (errUser, userResults) => {
+    con.release();
     if (errUser) {
       console.error('Error checking user:', errUser);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -631,6 +645,7 @@ app.post('/userList/remove', (req, res) => {
     }
 
     con.query(checkContentQuery, [contentLinkName], (errContent, contentResults) => {
+      con.release();
       if (errContent) {
         console.error('Error checking content:', errContent);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -644,6 +659,7 @@ app.post('/userList/remove', (req, res) => {
       const removeFromUserListQuery = 'DELETE FROM UserList WHERE email = ? AND contentLinkName = ?';
 
       con.query(removeFromUserListQuery, [email, contentLinkName], (errRemove) => {
+        con.release();
         if (errRemove) {
           console.error('Error removing content from user list:', errRemove);
           return res.status(500).json({ error: 'Internal Server Error' });
@@ -667,6 +683,7 @@ app.post('/userList/check', (req, res) => {
   const checkUserContentQuery = 'SELECT * FROM UserList WHERE email = ? AND contentLinkName = ?';
 
   con.query(checkUserQuery, [email], (errUser, userResults) => {
+    con.release();
     if (errUser) {
       console.error('Error checking user:', errUser);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -677,6 +694,7 @@ app.post('/userList/check', (req, res) => {
     }
 
     con.query(checkContentQuery, [contentLinkName], (errContent, contentResults) => {
+      con.release();
       if (errContent) {
         console.error('Error checking content:', errContent);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -687,6 +705,7 @@ app.post('/userList/check', (req, res) => {
       }
 
       con.query(checkUserContentQuery, [email, contentLinkName], (errUserContent, userContentResults) => {
+        con.release();
         if (errUserContent) {
           console.error('Error checking UserList:', errUserContent);
           return res.status(500).json({ error: 'Internal Server Error' });
@@ -717,6 +736,7 @@ app.post('/userHistory/add', (req, res) => {
   const checkContentQuery = 'SELECT * FROM Content WHERE contentLinkName = ?';
 
   con.query(checkUserQuery, [email], (errUser, userResults) => {
+    con.release();
     if (errUser) {
       console.error('Error checking user:', errUser);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -727,6 +747,7 @@ app.post('/userHistory/add', (req, res) => {
     }
 
     con.query(checkContentQuery, [contentLinkName], (errContent, contentResults) => {
+      con.release();
       if (errContent) {
         console.error('Error checking content:', errContent);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -740,6 +761,7 @@ app.post('/userHistory/add', (req, res) => {
       const addToUserListQuery = 'INSERT INTO UserHistory (email, contentLinkName) VALUES (?, ?)';
 
       con.query(addToUserListQuery, [email, contentLinkName], (errAdd) => {
+        con.release();
         if (errAdd) {
           console.error('Error adding content to user history:', errAdd);
           return res.status(500).json({ error: 'Internal Server Error' });
@@ -764,6 +786,7 @@ app.post('/user/feedback', (req, res) => {
   const checkUserQuery = 'SELECT * FROM UserData WHERE email = ?';
 
   con.query(checkUserQuery, [email], (errUser, userResults) => {
+    con.release();
     if (errUser) {
       console.error('Error checking user:', errUser);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -778,6 +801,7 @@ app.post('/user/feedback', (req, res) => {
 
 
     con.query(addFeedbackQuery, [email, feedback], (errAdd) => {
+      con.release();
       if (errAdd) {
         console.error('Error adding content to user history:', errAdd);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -795,6 +819,7 @@ app.put('/user/feedback/delete', (req, res) => {
   const query = "UPDATE UserData SET feedback = NULL WHERE email = ?";
 
   con.query(query, [email], (err, result) => {
+    con.release();
     if (err) {
       // Handle the error
       console.error(err);
@@ -825,6 +850,7 @@ app.post('/content/search', (req, res) => {
     const searchPattern = `%${searchTerm.replace(/\s/g, '')}%`;
 
     con.query(searchResultsQuery, [searchPattern], (err, results) => {
+      con.release();
       if (err) {
         console.error('Error performing search:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
