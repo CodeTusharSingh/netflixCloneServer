@@ -8,10 +8,10 @@ var mysql = require('mysql');
 // });
 var con = mysql.createPool({
   connectionLimit: 10,
-  host: "sql12.freesqldatabase.com",
-  user: "sql12671206",
-  password: "mV95dHidzf",
-  database: "sql12671206"
+  host: "sql6.freesqldatabase.com",
+  user: "sql6690326",
+  password: "uLQ1CfHiQI",
+  database: "sql6690326"
 });
 // var con = mysql.createConnection({
 //   connectionLimit: 10,
