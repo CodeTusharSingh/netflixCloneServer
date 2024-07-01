@@ -101,7 +101,7 @@ app.post('/step2of1', async (req, res) => {
       res.cookie("Finish_token", token, {
         httpOnly: false,
         secure: true,
-        sameSite: 'None'
+        sameSite: 'Lax'
       });
       res.status(200).json({ msg: "data inserted successfully" });
       console.log('Data inserted successfully');
@@ -196,14 +196,14 @@ app.post('/signin', (req, res) => {
         res.cookie("Finish_token", token, {
           httpOnly: false,
           secure: true,
-          sameSite: 'None'
+          sameSite: 'Lax'
         });
         const token1 = jwt.sign(
           { user_id: email }, 'ram');
         res.cookie("access_token", token1, {
           httpOnly: false,
           secure: true,
-          sameSite: 'None'
+          sameSite: 'Lax'
         });
         return res.sendStatus(403);
       }
@@ -238,7 +238,7 @@ app.post('/signin', (req, res) => {
         httpOnly: false,
         secure: true,
         expires: expirationDate,
-        sameSite: 'None'
+        sameSite: 'Lax'
       });
       return res.sendStatus(200);
          
@@ -354,7 +354,7 @@ app.post('/paymentverification', async (req, res) => {
           httpOnly: false,
           secure: true,
           expires: expirationDate,
-          sameSite: 'None'
+          sameSite: 'Lax'
         });
          
         return res.redirect('https://netflixclone-0y0x.onrender.com');
@@ -399,10 +399,10 @@ function checkValidity(req, res, next) {
           console.log('Validity: ', validityDate);
           console.log('Current: ', currentDate);
           if (validityDate < currentDate) {
-              res.clearCookie('access_token', { secure: true, sameSite: 'None' });
-              res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
-              res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
-              res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
+              res.clearCookie('access_token', { secure: true, sameSite: 'Lax' });
+              res.clearCookie('Finish_token', { secure: true, sameSite: 'Lax' });
+              res.clearCookie('plan_token', { secure: true, sameSite: 'Lax' });
+              res.clearCookie('signed_token', { secure: true, sameSite: 'Lax' });
             console.log('Validity has passed');
 
             // Update the plan column to null
@@ -461,7 +461,7 @@ app.post('/token', async (req, res) => {
   res.cookie("plan_token", token, {
     httpOnly: false,
     secure: true,
-    sameSite: 'None'
+    sameSite: 'Lax'
   });
   return res.status(201).json({ msg: "token success" });
 })
@@ -889,10 +889,10 @@ app.post('/content/search', (req, res) => {
 
 app.delete('/removeToken', (req, res) => {
   // Clear the existing tokens by setting expired tokens in the cookies
-  res.clearCookie('access_token', { secure: true, sameSite: 'None' });
-  res.clearCookie('Finish_token', { secure: true, sameSite: 'None' });
-  res.clearCookie('plan_token', { secure: true, sameSite: 'None' });
-  res.clearCookie('signed_token', { secure: true, sameSite: 'None' });
+  res.clearCookie('access_token', { secure: true, sameSite: 'Lax' });
+  res.clearCookie('Finish_token', { secure: true, sameSite: 'Lax' });
+  res.clearCookie('plan_token', { secure: true, sameSite: 'Lax' });
+  res.clearCookie('signed_token', { secure: true, sameSite: 'Lax' });
 
   // Send a response indicating the token removal
   res.status(200).json({ msg: 'Cookies removed' });
