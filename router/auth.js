@@ -9,9 +9,9 @@ router.post("/generateToken", (req, res) => {
   const token = jwt.sign({ user_id: email }, 'ram')
   console.log('Generated Token:', token);
   res.cookie("access_token", token, {
-    httpOnly: false,
+    httpOnly: true,
     secure: true,
-    sameSite: 'Lax',
+    sameSite: 'None',
   });
   res.sendStatus(201);
 });
@@ -70,9 +70,9 @@ router.post('/Step4of1', (req, res) => {
       const token = jwt.sign(
         { user_id: email }, 'ram');
       res.cookie("Finish_token", token, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true,
-        sameSite: 'Lax',
+        sameSite: 'None',
       });
       return res.sendStatus(200);
     });
