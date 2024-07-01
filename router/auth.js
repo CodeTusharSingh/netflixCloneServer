@@ -11,7 +11,7 @@ router.post("/generateToken", (req, res) => {
   res.cookie("access_token", token, {
     httpOnly: false,
     secure: true,
-    sameSite: 'None',
+    sameSite: 'Lax',
   });
   res.sendStatus(201);
 });
@@ -72,7 +72,7 @@ router.post('/Step4of1', (req, res) => {
       res.cookie("Finish_token", token, {
         httpOnly: false,
         secure: true,
-        sameSite: 'None',
+        sameSite: 'Lax',
       });
       return res.sendStatus(200);
     });
